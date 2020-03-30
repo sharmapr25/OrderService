@@ -1,4 +1,4 @@
-package food.service.order.demo;
+package food.service.order.demo.entity;
 
 import lombok.*;
 
