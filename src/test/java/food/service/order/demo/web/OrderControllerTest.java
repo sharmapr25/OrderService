@@ -50,8 +50,8 @@ public class OrderControllerTest {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
-        OrderLineItem orderLineItem = new OrderLineItem("desert-01", 1);
-        CreateOrderRequest firstOrder = new CreateOrderRequest(1L, 90L, Collections.singletonList(orderLineItem));
+        OrderLineItem orderLineItem = new OrderLineItem("dessert-01", 1);
+        CreateOrderRequest firstOrder = new CreateOrderRequest(1L, 1L, Collections.singletonList(orderLineItem));
         String firstOrderAsString = objectMapper.writeValueAsString(firstOrder);
 
         HttpEntity<String> request = new HttpEntity<>(firstOrderAsString, httpHeaders);
