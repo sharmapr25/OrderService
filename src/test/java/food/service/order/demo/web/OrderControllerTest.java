@@ -1,4 +1,4 @@
-package food.service.order.demo;
+package food.service.order.demo.web;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
