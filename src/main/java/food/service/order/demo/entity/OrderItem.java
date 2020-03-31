@@ -9,7 +9,7 @@ import javax.persistence.Embeddable;
 @EqualsAndHashCode @ToString
 public class OrderItem {
     private int quantity;
-    private String menuItemId;
+    private String id;
     private String name;
     private int price;
 }

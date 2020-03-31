@@ -1,13 +1,27 @@
 package food.service.order.demo;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import food.service.order.demo.entity.OrderState;
+import food.service.order.demo.web_api_contract.CreateOrderRequest;
+import food.service.order.demo.web_api_contract.MenuItem;
+import food.service.order.demo.web_api_contract.CreateOrderResponse;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Collections;
+
+import static junit.framework.TestCase.assertTrue;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -15,16 +29,36 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class OrderControllerTest {
 
     @LocalServerPort
-    private int port;
+    private int randomServerPort;
 
     @Autowired
     OrderController orderController;
 
     @Autowired
-    TestRestTemplate testRestTemplate;
+    TestRestTemplate restTemplate;
+
+    ObjectMapper objectMapper;
+
+    @Before
+    public void setup(){
+        objectMapper = new ObjectMapper();
+    }
 
     @Test
-    public void createOrder_shouldReturnOrderIdWithOrderStatePendingApproval_whenOrderCreatedForFirstTime(){
-        assertThat(this.testRestTemplate.getForObject("http://localhost:"+port+"/", String.class)).contains("Hello world");
+    public void createOrder_shouldReturnOrderIdWithOrderStatePendingApproval_whenOrderCreatedForFirstTime() throws JsonProcessingException {
+        String baseUrl = "http://localhost:" + randomServerPort + "/orders";
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+        MenuItem menuItem = new MenuItem("desert-01", 1);
+        CreateOrderRequest firstOrder = new CreateOrderRequest(1L, 90L, Collections.singletonList(menuItem));
+        String firstOrderAsString = objectMapper.writeValueAsString(firstOrder);
+
+        HttpEntity<String> request = new HttpEntity<>(firstOrderAsString, httpHeaders);
+        String response = this.restTemplate.postForObject(baseUrl, request, String.class);
+        CreateOrderResponse orderResponse = objectMapper.readValue(response, CreateOrderResponse.class);
+
+        assertTrue(orderResponse.isSameOrderState(OrderState.APPROVAL_PENDING));
+
     }
 }
