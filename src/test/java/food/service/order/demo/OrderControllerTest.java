@@ -3,12 +3,12 @@ package food.service.order.demo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import food.service.order.demo.entity.OrderState;
+import food.service.order.demo.web.OrderController;
 import food.service.order.demo.web_api_contract.CreateOrderRequest;
-import food.service.order.demo.web_api_contract.MenuItem;
+import food.service.order.demo.web_api_contract.OrderLineItem;
 import food.service.order.demo.web_api_contract.CreateOrderResponse;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -50,8 +50,8 @@ public class OrderControllerTest {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
-        MenuItem menuItem = new MenuItem("desert-01", 1);
-        CreateOrderRequest firstOrder = new CreateOrderRequest(1L, 90L, Collections.singletonList(menuItem));
+        OrderLineItem orderLineItem = new OrderLineItem("desert-01", 1);
+        CreateOrderRequest firstOrder = new CreateOrderRequest(1L, 90L, Collections.singletonList(orderLineItem));
         String firstOrderAsString = objectMapper.writeValueAsString(firstOrder);
 
         HttpEntity<String> request = new HttpEntity<>(firstOrderAsString, httpHeaders);

@@ -4,7 +4,7 @@ import lombok.*;
 
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 @ToString @EqualsAndHashCode
-public class MenuItem {
+public class OrderLineItem {
     private String menuItemId;
     private int quantity;
 }

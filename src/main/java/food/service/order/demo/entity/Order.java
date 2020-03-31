@@ -11,6 +11,7 @@ import java.util.List;
 @Setter @Getter @NoArgsConstructor
 @EqualsAndHashCode @ToString
 public class Order {
+
     @Id
     @GeneratedValue
     private Long id;
@@ -25,4 +26,11 @@ public class Order {
     @CollectionTable(name = "order_items")
     private List<OrderItem> orderItems;
 
+
+    public Order(long consumerId, long restaurantId, List<OrderItem> orderItems) {
+        this.consumerId = consumerId;
+        this.restaurantId = restaurantId;
+        this.orderItems = orderItems;
+        this.orderState = OrderState.APPROVAL_PENDING;
+    }
 }

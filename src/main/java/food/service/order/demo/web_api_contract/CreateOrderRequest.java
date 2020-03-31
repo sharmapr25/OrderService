@@ -9,5 +9,5 @@ import java.util.List;
 public class CreateOrderRequest {
     private long consumerId;
     private long restaurantId;
-    private List<MenuItem> menuItems;
+    private List<OrderLineItem> orderLineItems;
 }

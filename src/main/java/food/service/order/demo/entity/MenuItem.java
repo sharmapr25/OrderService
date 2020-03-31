@@ -7,9 +7,12 @@ import javax.persistence.Embeddable;
 @Embeddable
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 @EqualsAndHashCode @ToString
-public class OrderItem {
+public class MenuItem {
     private String id;
     private String name;
     private int price;
-    private int quantity;
+
+    public boolean isSameId(String menuItemId) {
+        return id.equals(menuItemId);
+    }
 }
